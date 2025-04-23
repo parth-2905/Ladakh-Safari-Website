@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXPLORERS - Activities</title>
+    <style>
+        /* Full CSS included inline to avoid external file dependencies */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .activities-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+            background-color: #1a1a1a;
+        }
+
+        /* Slideshow Styles */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Slideshow image transition */
+        .slide {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide:nth-child(1) {
+            animation: slideShow 8s 0s infinite;
+        }
+
+        .slide:nth-child(2) {
+            animation: slideShow 8s 2s infinite;
+        }
+
+        .slide:nth-child(3) {
+            animation: slideShow 8s 4s infinite;
+        }
+
+        .slide:nth-child(4) {
+            animation: slideShow 8s 6s infinite;
+        }
+
+        @keyframes slideShow {
+            0% { opacity: 0; }
+            12.5% { opacity: 1; }
+            25% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        .slideshow img {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .activities-hero h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            z-index: 10;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            width: 100%;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .scroll-indicator p {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .arrow {
+            width: 30px;
+            height: 30px;
+            border-right: 3px solid white;
+            border-bottom: 3px solid white;
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: rotate(45deg) translateY(0);
+            }
+            40% {
+                transform: rotate(45deg) translateY(-20px);
+            }
+            60% {
+                transform: rotate(45deg) translateY(-10px);
+            }
+        }
+
+        /* Activities Grid */
+        .activities-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 2rem;
+            padding: 5rem 2rem;
+            max-width: 100%;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        @media (max-width: 1200px) {
+            .activities-grid {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 2rem;
+            }
+        }
+
+        .activity-card {
+            flex: 0 0 280px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .activity-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .activity-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .activity-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .activity-content p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            display: inline-block;
+            background: #1a1a1a;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .btn-details {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            margin: 1rem auto;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+        }
+
+        .btn-details:hover {
+            background-color: #ff4500;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            width: 80%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .modal-header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .tour-intro {
+            margin-bottom: 30px;
+        }
+
+        .tour-highlights {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .tour-highlights h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 10px;
+        }
+
+        .tour-highlights ul {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .tour-highlights li {
+            background-color: white;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .tour-highlights li strong {
+            min-width: 140px;
+            display: inline-block;
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .tour-highlights ul {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tour-itinerary {
+            margin: 30px 0;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #e9e9e9;
+        }
+
+        .bike-specs, .essentials, .inclusions {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .bike-specs-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .bike-specs-content {
+            flex: 1;
+        }
+
+        .bike-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .bike-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .gear-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .gear-item {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .inclusion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .includes ul, .excludes ul {
+            padding-left: 20px;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        .btn-book {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-book:hover {
+            background-color: #ff5252;
+        }
+
+        .book-now {
+            text-align: center;
+            margin: 30px 0 10px;
+        }
+
+        .close-button {
+            color: white;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-button:hover {
+            color: #ff4500;
+        }
+
+        /* Stargazing Modal Styles */
+        .dark-sky-site h3, .what-youll-see h3, .site-description h3, 
+        .stargazing-experience h3, .expert-guide h3, .equipment h3, .conduct h3 {
+            text-align: center;
+            margin: 30px 0 20px;
+            color: #333;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+        }
+
+        .site-details {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .site-description {
+            flex: 3;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .site-image {
+            flex: 2;
+            text-align: center;
+        }
+
+        .site-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .celestial-objects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .object-card {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .object-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .object-card h4 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .experience-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .option {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .option h4 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .experience-details {
+            list-style-type: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .experience-details li {
+            margin-bottom: 10px;
+        }
+
+        .itinerary {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .itinerary h5 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .itinerary ul {
+            padding-left: 20px;
+        }
+
+        .itinerary li {
+            margin-bottom: 8px;
+        }
+
+        .guide-details {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .guide-image {
+            flex: 1;
+        }
+
+        .guide-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: rotate(270deg);
+        }
+
+        .guide-bio {
+            flex: 3;
+        }
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .service-card {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .service-card h5 {
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .equipment, .conduct {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .equipment ul, .conduct ol {
+            padding-left: 20px;
+        }
+
+        .equipment li, .conduct li {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .site-details, .guide-details {
+                flex-direction: column;
+            }
+            
+            .experience-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Footer Styles */
+        .page-footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        /* Trekking Modal Styles */
+        .trek-options {
+            margin: 30px 0;
+        }
+
+        .trek-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .trek-card {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .trek-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+            transition: transform 0.3s;
+        }
+
+        .trek-card a:hover img {
+            transform: scale(1.05);
+        }
+
+        .trek-content {
+            padding: 20px;
+        }
+
+        .trek-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .trek-content h4 a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .trek-content h4 a:hover {
+            color: #ff4500;
+        }
+
+        .trek-details {
+            list-style-type: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .trek-details li {
+            margin-bottom: 10px;
+        }
+
+        .btn-trek-details {
+            display: block;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-trek-details:hover {
+            background-color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+    <div class="activities-hero">
+        <div class="slideshow">
+            <div class="slide">
+                <img src="D:\CP Project\main page\images\trek.jpg" alt="Rafting in Ladakh">
+            </div>
+            <div class="slide">
+                <img src="D:\CP Project\main page\images\Picture1.jpg" alt="Trekking in Himalayas">
+            </div>
+            <div class="slide">
+                <img src="D:\CP Project\main page\images\Bhava Milkyway-2.jpeg" alt="Stargazing in Himalayas">
+            </div>
+            <div class="slide">
+                <img src="D:\CP Project\main page\images\Ladakh-bike-tour-package-banner.jpg" alt="Motorbike Safari in Ladakh">
+            </div>
+        </div>
+        <h1>Activities We Offer</h1>
+        <div class="scroll-indicator">
+            <p>Scroll to explore</p>
+            <div class="arrow"></div>
+        </div>
+    </div>
+
+    <div class="activities-grid">
+        <div class="activity-card">
+            <img src="D:\CP Project\main page\images\Ladakh-bike-tour-package-banner.jpg" alt="Motorbike Safari in Ladakh">
+            <div class="activity-content">
+                <h2>Motorbike Safari</h2>
+                <p>Explore remote mountain passes and scenic routes on our guided motorbike expeditions.</p>
+
+                <button class="btn-details" onclick="document.getElementById('motorbikeSafariModal').style.display='block'">View Details</button>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <img src="D:\CP Project\main page\images\Bhava Milkyway-2.jpeg" alt="Stargazing in Himalayas">
+            <div class="activity-content">
+                <h2 align="center">Exploring The Dark Skies</h2>
+                <p>Experience the night sky like never before in pristine dark-sky locations.</p>
+                <button class="btn-details" onclick="document.getElementById('stargzingModal').style.display='block'">View Details</button>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <img src="D:\CP Project\main page\images\Picture1.jpg" alt="Rafting">
+            <div class="activity-content">
+                <h2>Rafting</h2>
+                <p>Navigate through thrilling rapids with our expert guides.</p>
+                <button class="btn-details" onclick="document.getElementById('raftingModal').style.display='block'">View Details</button>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <img src="D:\CP Project\main page\images\trek.jpg" alt="Trekking in Himalayas">
+            <div class="activity-content">
+                <h2>Trekking</h2>
+                <p>Embark on a journey through breathtaking landscapes and challenging trails.</p>
+                <button class="btn-details" onclick="document.getElementById('trekkingModal').style.display='block'">View Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Motorbike Safari -->
+    <div id="motorbikeSafariModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-header">
+                <h2>Motorbike Safari - Ladakh Adventure</h2>
+            </div>
+            <div class="modal-body">
+                <div class="tour-intro">
+                    <p>Motorbike safari is a one-of-a-kind extreme sport of riding to the limits and beyond. Ladakh offers superb motorbiking conditions - tough climbs, endless descents, and maximum off-road potential for the die-hard adventure lovers. Ride a classic Enfield Bullet through India's spectacular Himalayas – Ladakh as it offers the highest motorable roads in the world, finest monasteries, and an endless experience of the Trans Himalayan riding adventure.</p>
+                    
+                    <div class="tour-highlights">
+                        <h3>Tour Highlights</h3>
+                        <ul>
+                            <li><strong>Duration:</strong> 09 nights / 10 days</li>
+                            <li><strong>Start/End:</strong> Leh</li>
+                            <li><strong>Highlight:</strong> Adventure, People, Villages, Wildlife and High Passes</li>
+                            <li><strong>Physical Challenge:</strong> Moderate to Challenging</li>
+                            <li><strong>Riding Distance:</strong> 1450 KMS</li>
+                            <li><strong>Riding Hours:</strong> 51 HRS</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tour-itinerary">
+                    <h3>Tour Itinerary</h3>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Programme</th>
+                                    <th>MODE</th>
+                                    <th>kms</th>
+                                    <th>hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>ARRIVAL</td>
+                                    <td>Leh</td>
+                                    <td>Arrive in Leh, day for acclimatization. Complete rest at the hotel</td>
+                                    <td>Car</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Leh</td>
+                                    <td>Uleytokpo</td>
+                                    <td>Today ride to Lamayuru enroute visit Magnetic Hill / Confluence / Alchi and Lamayuru monastery. Overnight stay in Uleytokpo</td>
+                                    <td>Motorbike</td>
+                                    <td>150</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Uleytokpo</td>
+                                    <td>Leh</td>
+                                    <td>Today ride back to Leh enroute visit the Hall of fame museum. Evening ride to Shanti Stupa</td>
+                                    <td>Motorbike</td>
+                                    <td>150</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Leh</td>
+                                    <td>Nubra</td>
+                                    <td>Today ride to the world's highest motor able road Khardungla pass at 18380 ft to reach Nubra. Visit the Diskit monastery, Hunder sand dunes</td>
+                                    <td>Motorbike</td>
+                                    <td>140</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Nubra</td>
+                                    <td>Nubra</td>
+                                    <td>Same day excursion to Turtuk. The last Indian Village</td>
+                                    <td>Motorbike</td>
+                                    <td>150</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Nubra</td>
+                                    <td>Pangong</td>
+                                    <td>Today ride from Nubra to Pangong via Shayok River</td>
+                                    <td>Motorbike</td>
+                                    <td>150</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Pangong</td>
+                                    <td>Hanle</td>
+                                    <td>Today ride from Pangong to Hanle. Visit Hanle monastery</td>
+                                    <td>Motorbike</td>
+                                    <td>310</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>Hanle</td>
+                                    <td>Tsomoriri</td>
+                                    <td>Today ride from Hanle to Tsomoriri</td>
+                                    <td>Motorbike</td>
+                                    <td>150</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>Tsomoriri</td>
+                                    <td>Leh</td>
+                                    <td>Today ride from Tsomoriri to Leh via Mahe Bridge</td>
+                                    <td>Motorbike</td>
+                                    <td>250</td>
+                                    <td>8</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td colspan="2">Depart Leh</td>
+                                    <td>Depart Leh</td>
+                                    <td>Car</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td colspan="3">Total</td>
+                                    <td></td>
+                                    <td>riding<br>kms/hrs</td>
+                                    <td>1450</td>
+                                    <td>51</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bike-specs">
+                    <h3>Motorbike Specifications</h3>
+                    <div class="bike-specs-container">
+                        <div class="bike-specs-content">
+                            <h4>ROYAL ENFIELD – HIMALAYAN</h4>
+                            <ul>
+                                <li><strong>Type:</strong> Single Cylinder, 4 stroke, Air cooled, SOHC, Fuel Injection</li>
+                                <li><strong>Displacement:</strong> 411cc</li>
+                                <li><strong>Maximum Power:</strong> 24.5 bhp @ 6500 rpm</li>
+                                <li><strong>Maximum Torque:</strong> 32 Nm @ 4250 rpm</li>
+                                <li><strong>Ignition system:</strong> Digital electronic ignition</li>
+                                <li><strong>Gearbox:</strong> 5 Speed Constant Mesh</li>
+                                <li><strong>Fuel supply:</strong> Electronic fuel injection</li>
+                                <li><strong>Engine start:</strong> Electric</li>
+                            </ul>
+                        </div>
+                        <div class="bike-image">
+                            <img src="images/himalayan.jpg" alt="Royal Enfield Himalayan Motorcycle">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="essentials">
+                    <h3>Essentials - Must Carry</h3>
+                    <h4>DOCUMENTS</h4>
+                    <p>Driving license and Adventure Insurance</p>
+                    
+                    <h4>GEAR TO CARRY</h4>
+                    <div class="gear-grid">
+                        <div class="gear-item">Helmet (with a good vent)</div>
+                        <div class="gear-item">Fully protective jacket (winter)</div>
+                        <div class="gear-item">Warm clothing (after ride)</div>
+                        <div class="gear-item">Fully protective trousers</div>
+                        <div class="gear-item">Sweatshirts</div>
+                        <div class="gear-item">Goggles & sunglasses</div>
+                        <div class="gear-item">Warm socks</div>
+                        <div class="gear-item">Riding boots</div>
+                        <div class="gear-item">Warm fleece</div>
+                        <div class="gear-item">Gloves (winter & summer)</div>
+                        <div class="gear-item">Personal clothing</div>
+                        <div class="gear-item">Waterproof over-suit</div>
+                        <div class="gear-item">Thermals</div>
+                        <div class="gear-item">Scarf/bandana</div>
+                        <div class="gear-item">Cap or hat</div>
+                        <div class="gear-item">Rucksack/duffel bag</div>
+                    </div>
+                </div>
+
+                <div class="inclusions">
+                    <h3>Tour Inclusions</h3>
+                    <div class="inclusion-grid">
+                        <div class="includes">
+                            <h4>INCLUDES</h4>
+                            <ul>
+                                <li>ALL travel assistance</li>
+                                <li>Tea/coffee on arrival in hotel</li>
+                                <li>Accommodation on twin sharing basis</li>
+                                <li>Meal plan: Breakfast and Dinner</li>
+                                <li>Airport transfers by 01 SUV</li>
+                                <li>Inner line permit to restricted areas</li>
+                                <li>Oxygen Cylinders & First Aid Kit</li>
+                                <li>GST 5%</li>
+                                <li>2 Enfield Himalayan 411 CC BS6 motorbikes with fuel</li>
+                                <li>Backup car for the tour</li>
+                                <li>Tour Guide cum mechanic with Motorbike</li>
+                                <li>Spare parts</li>
+                            </ul>
+                        </div>
+                        <div class="excludes">
+                            <h4>EXCLUDES</h4>
+                            <ul>
+                                <li>Monastery Entrance fees</li>
+                                <li>Personal expenses or optional tours</li>
+                                <li>Extra meals ordered</li>
+                                <li>Services of vehicle on leisure days</li>
+                                <li>Tips, insurance, laundry, phone calls</li>
+                                <li>Any kind of drinks</li>
+                                <li>Guide fee, camera fee</li>
+                                <li>Riding gear</li>
+                                <li>Insurance</li>
+                                <li>Any costs from unforeseen circumstances</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="note">*Any costs arising out of unforeseen circumstances such as bad weather, landslides, road conditions and any other circumstances beyond our control</p>
+                </div>
+
+                <div class="book-now">
+                    <a href="#" class="btn-book">Book This Experience</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Stargazing -->
+    <div id="stargzingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-header">
+                <h2>Exploring The Dark Skies - Ladakh Stargazing</h2>
+            </div>
+            <div class="modal-body">
+                <div class="tour-intro">
+                    <p>Embark on a celestial journey with our Dark Sky Tours in Ladakh, where the night skies are among the darkest on Earth. These nocturnal expeditions unravel the mysteries of the cosmos, offering immersive discussions on astronomy, awe-inspiring views of celestial bodies, and the opportunity to capture stunning images of the universe through telescopes and cameras.</p>
+                    
+                    <p>Ladakh's elevation, ranging from 3,500 to 5,000 meters, provides an unparalleled vantage point for observing the heavens. Imagine a celestial spectacle with minimal atmospheric interference, offering crystal-clear views of the twinkling stars rated on the Bortle dark-sky scale.</p>
+                </div>
+
+                <div class="dark-sky-site">
+                    <h3>Dark Sky Viewing Site at Shey, Ladakh</h3>
+                    <div class="site-details">
+                        <div class="site-description">
+                            <p>We have a dedicated dark sky viewing site in Shey, meticulously chosen for the ultimate night sky experience. With over five years of expertise in stargazing in the region, we identified this site as the most suitable location in Nubra Valley, offering the widest, uninterrupted views of the night sky.</p>
+                            
+                            <p>On moonless nights, the site features a Bortle 1 class sky, providing unparalleled visibility of the cosmos. Through our world-class astronomy equipment, you can easily observe star clusters, deep space objects such as galaxies and nebulae, and even the Zodiacal Light, which spans the entire night sky.</p>
+                            
+                            <p>This panoramic view is unique to our dark sky site in Shey, where prominent mountain ranges—the Stok and Ladakh Ranges—create a stunning natural backdrop in the northern part of the Indian subcontinent.</p>
+                        </div>
+                        <div class="site-image">
+                            <img src="https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG5pZ2h0JTIwc2t5fGVufDB8fDB8fHww&w=1000&q=80" alt="Dark Sky at Shey, Ladakh">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="what-youll-see">
+                    <h3>What You'll See</h3>
+                    <div class="celestial-objects">
+                        <div class="object-card">
+                            <h4>1. A Panoramic Canvas</h4>
+                            <p>Witness the Milky Way, a mesmerizing band of millions of stars stretching across the sky, in all its glory.</p>
+                        </div>
+                        <div class="object-card">
+                            <h4>2. Constellations</h4>
+                            <p>Identify familiar constellations like Orion, Ursa Major, Cassiopeia or spot your own zodiac also discover new ones.</p>
+                        </div>
+                        <div class="object-card">
+                            <h4>3. Planetary Parade</h4>
+                            <p>Gaze at planets like Jupiter, Saturn, and Mars, their moons visible with a telescope. Witness the rings of Saturn, the bands of Jupiter with your own eyes.</p>
+                        </div>
+                        <div class="object-card">
+                            <h4>4. Nebular Delights</h4>
+                            <p>Marvel at colourful nebulae, like the Ring Nebula, NGC 6563 and many more.</p>
+                        </div>
+                        <div class="object-card">
+                            <h4>5. Meteors</h4>
+                            <p>Witness the fleeting beauty of meteors streaking across the sky.</p>
+                        </div>
+                        <div class="object-card">
+                            <h4>6. Meteor Showers</h4>
+                            <p>Witness the mass Streaking of meteor across the night sky during special events like the Perseid Meteor Shower, every month offers a different meteor shower with varied levels of concentration.</p>
+                        </div>
+                        <div class="object-card">
+                            <h4>7. Comets</h4>
+                            <p>These interstellar visitors are a rarer sight and if you're lucky you might spot one during certain periods of the year.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="site-description">
+                    <h3>Dark Sky Site</h3>
+                    <p>The Dark Sky site is located near the River Indus with magnificent views. Shey village is situated at an altitude of around 3,600 meters (11,800 feet) and offers stunning vistas of the surrounding mountains and valleys. The village was once the capital of Ladakh and holds a unique place in the region's history and culture. One of the main attractions of Shey is the Indus River and the beautiful sunset view from the banks of the river.</p>
+                </div>
+
+                <div class="stargazing-experience">
+                    <h3>Our Exclusive Stargazing Experience</h3>
+                    <p>Experience the awe of the cosmos under the open sky with our stargazing experience, designed for everyone from first-time star seekers to seasoned astronomers. Our team of expert guides will transport you away from city lights and into the peaceful embrace of nature, where the sky reveals its true splendour. We offer the following experiences:</p>
+                    
+                    <div class="experience-options">
+                        <div class="option">
+                            <h4>Option 1: Stargazing Only</h4>
+                            <p>For those who are purely interested in the stars, planets, and constellations, our stargazing-only package provides the ultimate celestial experience.</p>
+                            <p>Join us after dark as we guide you through the wonders of the night sky, using high-powered telescopes to bring distant galaxies, the Milky Way, and constellations into focus. Whether you're curious about astronomy or just looking to escape, this option offers a peaceful, focused exploration of the universe above.</p>
+                            
+                            <ul class="experience-details">
+                                <li><strong>Includes:</strong> Guided stargazing with expert astronomers and high-quality telescopes</li>
+                                <li><strong>Ideal For:</strong> Families, friends, and solo explorers seeking a unique night time adventure</li>
+                            </ul>
+                            
+                            <div class="itinerary">
+                                <h5>Schedule</h5>
+                                <ul>
+                                    <li><strong>21:00 Hrs:</strong> Introduction of participants over Tea/coffee</li>
+                                    <li><strong>21:30 Hrs:</strong> Naked eye and Binocular Stargazing starts after Night Sky Briefing</li>
+                                    <li><strong>22:30 Hrs:</strong> Further Observations through Telescope for deeper sky objects and Planets</li>
+                                    <li><strong>00:30 Hrs:</strong> Q&A Sessions, Discussions and Explanation of astronomy concepts along with late night beverages</li>
+                                    <li><strong>01:30 Hrs:</strong> Observation concludes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="option">
+                            <h4>Option 2: Sunset Sundowner, Outdoor Dinner & Stargazing</h4>
+                            <p>Elevate your night with our complete outdoor experience! Start your evening with a stunning sunset sundowner, enjoying refreshing beverages while watching the sky transition from dusk to night. Watching the sun set from the banks of the Indus River is a magical experience.</p>
+                            <p>As the sun dips below the horizon, the river's waters would likely catch the colours of the sky, shifting from warm golds to fiery oranges and soft purples. The gentle ripple of the river, framed by the quiet of the surrounding landscape, would make it an ideal moment to enjoy a relaxing sundowner—whether it's a refreshing local drink or something classic like a cocktail.</p>
+                            <p>Once the stars begin to emerge, a delicious outdoor dinner awaits, with curated dishes that blend perfectly with the surroundings. After dinner, you'll embark on a guided stargazing journey to explore the night sky in all its beauty.</p>
+                            
+                            <ul class="experience-details">
+                                <li><strong>Includes:</strong> Sunset drinks, bonfire, outdoor dinner, and guided stargazing with telescopes</li>
+                                <li><strong>Ideal For:</strong> Couples, groups, and those looking to celebrate a special occasion or simply indulge in an unforgettable evening</li>
+                            </ul>
+                            
+                            <div class="itinerary">
+                                <h5>Schedule</h5>
+                                <ul>
+                                    <li><strong>18:30 Hrs:</strong> Reach the Dark Sky site</li>
+                                    <li><strong>19:00 Hrs:</strong> Observe the sky transform, shifting from soft blues to warm oranges, pinks, and reds</li>
+                                    <li><strong>19:15 Hrs:</strong> Enjoy sundowner</li>
+                                    <li><strong>20:00 Hrs:</strong> Bonfire and Dinner with light music</li>
+                                    <li><strong>21:00 Hrs:</strong> Introduction of participants</li>
+                                    <li><strong>21:30 Hrs:</strong> Naked eye and Binocular Stargazing starts after Night Sky Briefing</li>
+                                    <li><strong>22:30 Hrs:</strong> Further Observations through Telescope for deeper sky objects and Planets</li>
+                                    <li><strong>00:30 Hrs:</strong> Q&A Sessions, Discussions and Explanation of astronomy concepts</li>
+                                    <li><strong>01:30 Hrs:</strong> Observation concludes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="note">*Please note the actual viewing will be based of Night sky visibility on that date, for example on full moon or near full moon nights there will be less visible objects due to the brilliance of the moon. Weather also plays an important role with cloud cover being the biggest hindrance in astronomy viewing. Participants will be informed well in advance of the viewing conditions for the night.</p>
+                </div>
+
+                <div class="expert-guide">
+                    <h3>Expert Astronomy Guide</h3>
+                    <div class="guide-details">
+                        <div class="guide-image">
+                            <img src="images/pro.jpg" alt="Expert Astronomy Guide">
+                        </div>
+                        <div class="guide-bio">
+                            <p>Immerse yourself in the cosmos with our expert astronomy guide. A seasoned Indian Army veteran, Prasenjit boasts years of experience traversing the length and breadth of India, uncovering hidden gems and captivating adventures. His passion for astronomy ignited during his first visit to Ladakh in 2004, a place he's faithfully returned to every year since.</p>
+                            <p>There, he has actively collaborated with local stakeholders to promote sustainable tourism practices. Prasenjit's fascination with the night sky began in his childhood, a wonder that continues to captivate him. He has remained an avid learner, keeping pace with the ever-evolving field of astronomy. From his own backyard observations to leading immersive night sky tours, he has been a leading force in shaping this unique form of tourism for the past five years in Ladakh.</p>
+                            <p>As he poetically expresses, "Gazing upon the night sky fosters an unbridled connection with the universe, a feeling that transcends the boundaries of our world."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="services">
+                        <h4>Services Offered</h4>
+                        <div class="service-cards">
+                            <div class="service-card">
+                                <h5>1. Stargazing Sessions</h5>
+                                <p>Led by experienced astronomers, these sessions delve into the wonders of the night sky. Learn about constellations, planets, galaxies, and nebulae, and gain insights into the universe's vastness and mysteries.</p>
+                            </div>
+                            <div class="service-card">
+                                <h5>2. Telescope Observations</h5>
+                                <p>Peer through powerful telescopes to witness celestial objects in stunning detail. Saturn's rings, Jupiter's moons, distant galaxies, and even nebulae come alive, revealing the hidden beauty of the cosmos.</p>
+                            </div>
+                            <div class="service-card">
+                                <h5>3. Astrophotography Workshops</h5>
+                                <p>Capture the magic of the night sky with your camera. Learn astrophotography techniques from experts and take-home breathtaking images of the stars and landscapes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equipment">
+                    <h3>Astro Gear</h3>
+                    <ul>
+                        <li>SKYWATCHER DOBSONION SYNSCAN 14" Collapsible GOTO</li>
+                        <li>Celestron Skymaster Astronomy Binoculars with mount</li>
+                        <li>Canon, Nikon T-ring adaptors, focal reducers, and spacers for astrophotography with Star Adventurer 2i Pro Mount for timelapse shots</li>
+                        <li>Universal Smartphone Mount for Telescopes and Binoculars</li>
+                    </ul>
+                </div>
+
+                <div class="conduct">
+                    <h3>Conduct at Site</h3>
+                    <ol>
+                        <li>Visitors are requested to reach on time, to avoid missing important parts of the session</li>
+                        <li>Visitors are required to produce suitable voucher for entry at the site</li>
+                        <li>Walk in visitors can be accommodated if there are empty slots available; Payment for the same will have to be made at site before entry</li>
+                        <li>A maximum of 14 guests can be accommodated each night</li>
+                        <li>Star Gazing requires adapting the eyes to near dark conditions; hence visitors are requested to refrain from using their mobile screens</li>
+                        <li>Suitable markers and dimmed lights will be there to help move around at the site</li>
+                        <li>Visitors are requested to not make any videos of the briefing, and the same without consent will be seen as an infringement of privacy</li>
+                        <li>Visitors will get ample time and chance to shoot with their mobile device or any photography equipment once the session progresses</li>
+                        <li>The site will have necessities like Tent Toilets, Drinking water and Hot Beverages</li>
+                        <li>Visitors should carry suitable clothing like Jackets, Warm cap, gloves etc for chilly nights</li>
+                    </ol>
+                </div>
+
+                <div class="book-now">
+                    <a href="#" class="btn-book">Book This Experience</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Rafting -->
+    <div id="raftingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-header">
+                <h2>Rafting - River Adventure</h2>
+            </div>
+            <div class="modal-body">
+                <p>Experience the thrill of white water rafting through stunning river valleys.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Trekking -->
+    <div id="trekkingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="modal-header">
+                <h2>Trekking in Ladakh</h2>
+            </div>
+            <div class="modal-body">
+                <div class="tour-intro">
+                    <p>Trekking in Ladakh is a unique and unforgettable experience that combines natural beauty, adventure, and cultural richness. Nestled in the northernmost region of India, Ladakh is known for its rugged mountains, high-altitude passes, and stunning landscapes. Popular trekking routes like the Chadar Trek (on the frozen Zanskar River), Markha Valley Trek, and Stok Kangri Trek attract adventurers from around the world.</p>
+                    
+                    <p>The region's stark beauty—featuring snow-capped peaks, barren deserts, and crystal-clear lakes like Pangong and Tso Moriri—makes every trek visually rewarding. Trekkers also get a chance to interact with the warm and hospitable Ladakhi people and explore ancient monasteries perched on mountain cliffs.</p>
+                    
+                    <p>Due to the high altitude, physical fitness and proper acclimatization are essential. Summer (June to September) is the best time for trekking, as the weather is favorable and the routes are open. Whether you're a beginner or an experienced trekker, Ladakh offers a magical journey through one of the most breathtaking terrains on Earth.</p>
+                </div>
+
+                <div class="trek-options">
+                    <h3>Popular Treks in Ladakh</h3>
+                    <div class="trek-grid">
+                        <div class="trek-card">
+                            <a href="D:\CP Project\main page\kashi.html" target ="_blank">
+                                <img src="https://www.shikhar.com/images/gallery/tours/203/3.jpg" alt="Kanji to Pishu Trek">
+                            </a>
+                            <div class="trek-content">
+                                <h4><a href="D:\CP Project\main page\kashi.html" target="_blank">Kanji to Pishu Trek</a></h4>
+                                <p>Experience the remote beauty of Ladakh's hidden valleys on this challenging trek that connects the villages of Kanji and Pishu.</p>
+                                <ul class="trek-details">
+                                    <li><strong>Duration:</strong> 7-8 days</li>
+                                    <li><strong>Difficulty:</strong> Moderate to Challenging</li>
+                                    <li><strong>Best Season:</strong> July to September</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="trek-card">
+                            <a href="D:\CP Project\main page\markha.html" target="_blank">
+                                <img src="https://www.himalayanhikers.in/wp-content/uploads/2019/11/Markha-Valley-Trek3.jpg" alt="Markha Valley Trek">
+                            </a>
+                            <div class="trek-content">
+                                <h4><a href="D:\CP Project\main page\markha.html" target="_blank">Markha Valley Trek</a></h4>
+                                <p>One of the most popular treks in Ladakh, offering stunning views of Kang Yatse and Stok Kangri peaks, along with traditional villages and monasteries.</p>
+                                <ul class="trek-details">
+                                    <li><strong>Duration:</strong> 6-7 days</li>
+                                    <li><strong>Difficulty:</strong> Moderate</li>
+                                    <li><strong>Best Season:</strong> June to September</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="trek-card">
+                            <a href="D:\CP Project\main page\RUMTSE.html" target="_blank">
+                                <img src="https://lifeontheplanetladakh.com/wp-content/uploads/2024/11/IMG_7370.jpeg" alt="Rumtse to Tso Moriri Trek">
+                            </a>
+                            <div class="trek-content">
+                                <h4><a href="D:\CP Project\main page\RUMTSE.html" target="_blank">Rumtse to Tso Moriri Trek</a></h4>
+                                <p>A challenging high-altitude trek that leads to the beautiful Tso Moriri Lake, crossing several passes and remote landscapes.</p>
+                                <ul class="trek-details">
+                                    <li><strong>Duration:</strong> 8-9 days</li>
+                                    <li><strong>Difficulty:</strong> Challenging</li>
+                                    <li><strong>Best Season:</strong> July to September</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="trek-card">
+                            <a href="D:\CP Project\main page\shamvalley.html" target="_blank">
+                                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/cf/88/a1/day-2-sham-valley-consists.jpg" alt="Sham Valley Trek">
+                            </a>
+                            <div class="trek-content">
+                                <h4><a href="D:\CP Project\main page\shamvalley.html" target="_blank">Sham Valley Trek</a></h4>
+                                <p>Perfect for beginners and those short on time, this trek offers beautiful landscapes, ancient monasteries, and traditional Ladakhi villages.</p>
+                                <ul class="trek-details">
+                                    <li><strong>Duration:</strong> 3-4 days</li>
+                                    <li><strong>Difficulty:</strong> Easy to Moderate</li>
+                                    <li><strong>Best Season:</strong> May to October</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-now">
+                    <a href="#" class="btn-book">Book a Trekking Adventure</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        <div class="footer-content">
+            <h3>Contact Us</h3>
+            <p>Email: info@explorers.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Address: 123 Adventure Street, Leh, Ladakh</p>
+            
+            <div class="footer-links">
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cancellation Policy</a>
+            </div>
+            
+            <p class="copyright">&copy; 2025 EXPLORERS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Slideshow functionality
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("slide");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 5000); // Change image every 5 seconds
+        }
+
+        // Modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all modals
+            const modals = document.querySelectorAll('.modal');
+            
+            // Get all buttons that open the modals
+            const detailButtons = document.querySelectorAll('.btn-details');
+            
+            // Get all <span> elements that close the modals
+            const closeButtons = document.querySelectorAll('.close-button');
+            
+            // When the user clicks on <span> (x), close the modal
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    modal.style.display = 'none';
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            });
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                    document.body.style.overflow = ''; // Restore scrolling
+                }
+            });
+        });
+    </script>
+</body>
+</html>

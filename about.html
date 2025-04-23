@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - EXPLORERS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- Harmonize Navigation Bar --- */
+        nav {
+            background: transparent;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: none;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            background: linear-gradient(135deg, #ff4500, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+            margin-right: 0;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        .nav-links {
+            display: flex;
+            gap: 5rem;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.7rem 1.5rem;
+            font-size: 1.18rem;
+            letter-spacing: 0.8px;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transform: translateX(-50%) scaleX(0);
+            transition: width 0.3s, transform 0.3s;
+        }
+        .nav-links a:hover::after {
+            width: 30%;
+            transform: translateX(-50%) scaleX(1);
+        }
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://imgcld.yatra.com/ytimages/image/upload/v1517480778/AdvNation/ANN_DES95/ann_top_Ladakh_buV00Q.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ff4500, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            opacity: 0.9;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.8);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .scroll-arrow {
+            width: 30px;
+            height: 30px;
+            border: solid white;
+            border-width: 0 4px 4px 0;
+            display: inline-block;
+            padding: 6px;
+            margin-top: 5px;
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(45deg); }
+            50% { transform: translateY(12px) rotate(45deg); }
+        }
+        /* --- About Section --- */
+        .about-section {
+            padding: 8rem 2rem 4rem;
+            max-width: none;
+            width: 100%;
+            margin: 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            text-align: center;
+            color: #111;
+            margin-bottom: 3rem;
+            font-size: 3rem;
+            position: relative;
+            font-weight: 800;
+        }
+        .card-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: nowrap;
+            width: 100%;
+        }
+        .about-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.13);
+            padding: 3rem 2.5rem;
+            flex: 1 1 0;
+            max-width: none;
+            min-width: 0;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: box-shadow 0.3s, transform 0.3s cubic-bezier(0.4,1.4,0.6,1), z-index 0.2s;
+            margin: 0 0.5rem;
+            z-index: 1;
+        }
+        .about-card:hover {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+            transform: translateY(-6px) scale(1.03);
+            z-index: 2;
+        }
+        .about-card.active {
+            box-shadow: 0 32px 64px rgba(0,0,0,0.22);
+            transform: scale(1.10) translateY(-10px);
+            z-index: 10;
+        }
+        .about-card h3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #111;
+            margin-bottom: 1.2rem;
+            font-size: 2.1rem;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #ff6b6b33;
+            padding-bottom: 0.6rem;
+            width: 100%;
+        }
+        .about-card .card-content {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+            width: 100%;
+        }
+        .about-card.active .card-content {
+            max-height: 900px;
+            opacity: 1;
+            margin-top: 1rem;
+        }
+        .about-card .expand-icon {
+            display: none;
+        }
+        .about-card p {
+            color: #333;
+            font-size: 1.16rem;
+            line-height: 1.8;
+            margin: 1.1rem 0 0.9rem 0;
+            text-align: left;
+            width: 100%;
+        }
+        .about-card ul.company-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.2rem 0 0 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem 1.3rem;
+        }
+        .about-card ul.company-list li {
+            background: #ff6b6b18;
+            color: #ff4500;
+            font-weight: 600;
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin: 0;
+        }
+        @media (max-width: 1200px) {
+            .about-card {
+                padding: 2rem 1rem;
+                min-height: 340px;
+            }
+            .about-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+        @media (max-width: 900px) {
+            .card-row {
+                flex-wrap: wrap;
+            }
+            .about-card {
+                min-width: 260px;
+                max-width: 100%;
+                margin-bottom: 1.5rem;
+            }
+        }
+        /* --- Footer --- */
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 2rem 0 0 0;
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .footer-section {
+            flex: 1 1 200px;
+            margin-bottom: 2rem;
+        }
+        .footer-section h4 {
+            color: #ff4500;
+            margin-bottom: 1rem;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        .footer-section ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-section ul li a:hover {
+            color: #ff4500;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding: 1rem;
+            background: #111;
+            color: #bbb;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">EXPLORERS</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="activity.html">Activities</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>About Us</h1>
+            <p>Your Journey Begins Here</p>
+        </div>
+        <div class="scroll-indicator">
+            <p>Scroll Down</p>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <h2 class="section-title">Our Story</h2>
+        <div class="card-row">
+            <div class="about-card">
+                <h3>Introduction</h3>
+                <div class="card-content">
+                    <p><strong>Ladakh Safari</strong>, founded in 2008, is a Destination Management Company based in Leh – Ladakh with a marketing and sales office in the NCR of Delhi.</p>
+                    <p><strong>Driven Professionals:</strong> Our team is passionate about experience-led travel. Our goal is to create experience-led products, allowing our customers to make the most of their journeys.</p>
+                    <p><strong>Strong Operations:</strong> The corporate office is located in Leh with an operations team that successfully handled 2900 pax in 2015. Our sales and marketing office in the NCR is headed by a very strong team of sales and customer care, who ensure quality customer care to our network of B2B sales and also our own loyalty base.</p>
+                </div>
+            </div>
+            <div class="about-card">
+                <h3>Why Us?</h3>
+                <div class="card-content">
+                    <p><strong>Local Expertise:</strong> We are a local travel company registered in Leh with a sales office in the NCR of Delhi.</p>
+                    <p><strong>Hospitality Network:</strong> We have a very strong local connect with hospitality partners all across the region.</p>
+                    <p><strong>Managed Properties:</strong> We manage and run one hotel in Leh and a camp in Nubra.</p>
+                    <p><strong>Tour Experience:</strong> We have successfully handled Group Tours, FIT, Special Interest Tours, Corporate and adventure tours.</p>
+                    <p><strong>Bespoke Journeys:</strong> We create bespoke tours that take you beyond the roads to villages and village Homestays.</p>
+                    <p><strong>Adventure:</strong> We organise adventure tours ranging from trekking, motorbike and rafting expeditions to soft adventures, such as village walks and horse rides.</p>
+                </div>
+            </div>
+            <div class="about-card">
+                <h3>Key Companies</h3>
+                <div class="card-content">
+                    <p>We have successfully handled corporate travel for some of the biggest names and work with renowned travel companies in India:</p>
+                    <ul class="company-list">
+                        <li>Google</li>
+                        <li>Microsoft</li>
+                        <li>Amazon</li>
+                        <li>Adobe</li>
+                        <li>TCS</li>
+                        <li>Infosys</li>
+                        <li>MakeMyTrip</li>
+                        <li>ClearTrip</li>
+                        <li>Yatra</li>
+                        <li>Thomas Cook</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="activity.html">Activities</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="#">+91 9810564360</a></li>
+                    <li><a href="#">+91 9622235488</a></li>
+                    <li><a href="#">pankaj.ladakhsafari@gmail.com</a></li>
+                    <li><a href="#">deleks.ladakhsafari@gmail.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Address</h4>
+                <p>Leh Office: </p>
+                <p>Branch Office: Shop No. 31, Sab Mall, Sector-27 NOIDA</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EXPLORERS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation hide/show on scroll
+        let lastScroll = 0;
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll <= 0) {
+                nav.classList.remove('hide');
+                return;
+            }
+            if (currentScroll > lastScroll && !nav.classList.contains('hide')) {
+                nav.classList.add('hide');
+            } else if (currentScroll < lastScroll && nav.classList.contains('hide')) {
+                nav.classList.remove('hide');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Expandable cards
+        document.querySelectorAll('.about-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Only toggle if header or icon is clicked
+                if (!e.target.closest('h3')) return;
+                // Collapse other cards
+                document.querySelectorAll('.about-card').forEach(c => {
+                    if (c !== card) c.classList.remove('active');
+                });
+                // Toggle this card
+                card.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

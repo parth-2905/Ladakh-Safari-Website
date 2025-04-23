@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXPLORERS - Travel & Tours</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .team-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            object-position: 50% 10%;
+        }
+
+        .team-card:hover .team-image {
+            transform: scale(1.05);
+        }
+
+        .team-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .team-info h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .team-info p {
+            margin: 5px 0 0;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Team Modal Styles */
+        .team-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .modal-header p {
+            color: #666;
+            margin: 5px 0 0;
+        }
+
+        .modal-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            margin: 20px 0;
+            border-radius: 8px;
+            object-position: 50% 60%;
+        }
+
+        .modal-text {
+            text-align: left;
+            color: #333;
+        }
+
+        .modal-text p {
+            margin: 15px 0;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .profile-summary {
+            margin-bottom: 2rem;
+        }
+
+        .profile-summary p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .key-responsibilities {
+            margin-bottom: 2rem;
+        }
+
+        .responsibilities-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .responsibilities-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .responsibilities-list li:before {
+            content: "•";
+            color: #ff4500;
+            position: absolute;
+            left: 0;
+        }
+
+        .education {
+            margin-bottom: 2rem;
+        }
+
+        .education p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .experience {
+            margin-bottom: 2rem;
+        }
+
+        .companies-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .companies-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .companies-list li:before {
+            content: "•";
+            color: #ff4500;
+            position: absolute;
+            left: 0;
+        }
+
+        .modal-text h3 {
+            color: #333;
+            margin: 2rem 0 1rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #ff4500;
+            padding-bottom: 0.5rem;
+        }
+
+        .modal-text ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .modal-text ul li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .modal-text ul li:before {
+            content: "•";
+            color: #ff4500;
+            position: absolute;
+            left: 0;
+        }
+
+        .associations {
+            margin-bottom: 2rem;
+        }
+
+        .key-areas {
+            margin-bottom: 2rem;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .area-col {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .company-col {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .skills {
+            margin-bottom: 2rem;
+        }
+
+        .skills-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .skills-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .skills-list li:before {
+            content: "•";
+            color: #ff4500;
+            position: absolute;
+            left: 0;
+        }
+
+        nav {
+            background: transparent;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        nav.hide {
+            transform: translateY(-100%);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .logo span {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            opacity: 0.5;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 2px;
+            bottom: 0;
+            left: 35%;
+            background-color: white;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        /* Terms and Conditions Styles */
+        .terms-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .terms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .terms-card {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+        
+        .card-header .arrow {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .card-content {
+            padding: 10px;
+        }
+        
+        .content-wrapper {
+            display: none;
+        }
+        
+        .terms-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .terms-list li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 1rem;
+        }
+        
+        .terms-list li:before {
+            content: "•";
+            color: #ff4500;
+            position: absolute;
+            left: 0;
+        }
+        
+        .destination-card {
+            background-color: #f7f7f7;
+    
+            border-radius: 10px;
+        }
+        
+        .destination-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+        
+       
+        
+        .destination-content h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #f7f7f7;
+        }
+        
+        .destination-content p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #f6f1f1;
+        }
+        
+        .activity-card {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .activity-content h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        .activity-content p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .card-summary {
+            display: block;
+        }
+        
+        .card-details {
+            display: none;
+        }
+        
+        .expanded .card-summary {
+            display: none;
+        }
+        
+        .expanded .card-details {
+            display: block;
+        }
+        
+        .expanded-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .expanded .expanded-content {
+            display: block;
+        }
+        
+        .destination-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .destination-card-link:hover .destination-card, .destination-card-link:focus .destination-card {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+            transform: translateY(-2px) scale(1.02);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        
+        .destination-carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+        .destination-carousel {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(.77,0,.18,1);
+            will-change: transform;
+        }
+        .destination-card-link {
+            flex: 0 0 33.3333%;
+            box-sizing: border-box;
+            padding: 0 12px;
+            max-width: 33.3333%;
+        }
+        .destination-card {
+            height: 100%;
+        }
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            border: none;
+            font-size: 2.2rem;
+            cursor: pointer;
+            z-index: 2;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: background 0.2s;
+        }
+        .carousel-arrow:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .carousel-arrow.left { left: 8px; }
+        .carousel-arrow.right { right: 8px; }
+        @media (max-width: 900px) {
+            .destination-card-link, .destination-card-link { flex-basis: 50%; max-width: 50%; }
+        }
+        @media (max-width: 600px) {
+            .destination-card-link, .destination-card-link { flex-basis: 100%; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <bg color="black"></bg>
+    <!-- Hero Section -->
+    <header class="hero">
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                    <span>EXPLORERS</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#journeys-intro">Journeys We Offer</a>
+                    <a href="activity.html" target="_blank">Activities</a>
+                    <a href="#team">Team</a>
+                    <a href="#terms">Terms and Conditions</a>
+                    <a href="about.html" target="_blank">About Us</a>
+                </div>
+            </div>
+        </nav>
+        <div class="hero-content">
+            <h1>Discover Your Next Adventure</h1>
+            <p>A journey to your deepest senses.</p>
+            <a href="#journeys-intro" class="start-journey-btn">Start Your Journey</a>
+        </div>
+    </header>
+
+    <!-- Journeys We Offer -->
+    <section id="journeys-intro" class="full-screen-section">
+        <h2 class="section-title" align="center">Journeys We Offer</h2>
+        <div class="scroll-indicator">
+            <p>Scroll Down</p>
+            <div class="scroll-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M5 12l7 7 7-7"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section id="journeys" class="destinations scroll-reveal">
+        <div class="destination-carousel-container">
+            <button class="carousel-arrow left" id="carouselPrev" aria-label="Previous">&#8592;</button>
+            <button class="carousel-arrow right" id="carouselNext" aria-label="Next">&#8594;</button>
+            <div class="destination-carousel" id="destinationCarousel">
+                <a href="journey1.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/Leh_Palace_2011.jpg" alt="Introducing Ladakh">
+                        <div class="destination-content">
+                            <h3>INTRODUCING LADAKH</h3>
+                            <p><b>Duration:</b> 03 nights / 04 Days</p>
+                            <p><b>Season:</b> All Year</p>
+                            <p><b>Destinations:</b> Leh 3 nights</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey2.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/Khardung-La-Pass-To-Nubra-Valley-scaled.jpg" alt="Ladakh Paradise">
+                        <div class="destination-content">
+                            <h3>LADAKH PARADISE</h3>
+                            <p><b>Duration:</b> 04 nights / 05 Days</p>
+                            <p><b>Season:</b> May-October</p>
+                            <p><b>Destinations:</b> Leh 3 nights</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey3.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/nubra.jpg" alt="Mystic Ladakh">
+                        <div class="destination-content">
+                            <h3>MYSTIC LADAKH</h3>
+                            <p><b>Duration:</b> 05 nights / 06 Days</p>
+                            <p><b>Season:</b> April - October</p>
+                            <p><b>Destinations:</b> Leh(4 nights), Nubra(1 night)</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey4.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/pangong-tso.jpg" alt="Pangong Tso">
+                        <div class="destination-content">
+                            <h3>LADAKH- THE SILK ROUTE</h3>
+                            <p><b>Duration:</b> 05 nights / 06 Days</p>
+                            <p><b>Season:</b> April-October</p>
+                            <p><b>Destinations:</b> Leh(3 nights), Nubra(1 night), Pangong Tso(1 night)</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey5.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/Sham-Valley-Ladakh.jpg" alt="Sham Valley">
+                        <div class="destination-content">
+                            <h3>DISCOVER LADAKH</h3>
+                            <p><b>Duration:</b> 06 nights / 07 Days</p>
+                            <p><b>Season:</b> May-June-August-September</p>
+                            <p><b>Destinations:</b> Leh(4 nights), Nubra(1 night), Pangong Tso(1 night)</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey6.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/uleytokpo.jpeg" alt="Uleytokpo">
+                        <div class="destination-content">
+                            <h3>MOON LAND JOURNEY</h3>
+                            <p><b>Duration:</b> 06 nights / 07 Days</p>
+                            <p><b>Season:</b> May-October</p>
+                            <p><b>Destinations:</b> Leh(3 nights), Uleytokpo(1 night), Pangong Tso(1 night), Nubra(1 night)</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey7.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/turtuk_jpeg.jpg" alt="Turtuk">
+                        <div class="destination-content">
+                            <h3>JOURNEY TO THE LAST VILLAGE</h3>
+                            <p><b>Duration:</b> 06 nights / 07 Days</p>
+                            <p><b>Season:</b> June-October</p>
+                            <p><b>Destinations:</b> Leh(3 nights),Pangong Tso(1 night), Nubra(2 nights)</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="journey8.html" class="destination-card-link">
+                    <div class="destination-card">
+                        <img src="images/Tso-Moriri(jpg).jpg" alt="Tso Moriri">
+                        <div class="destination-content">
+                            <h3>LAKES OF LADAKH WITH HIGHEST OBSERVATORY</h3>
+                            <p><b>Duration:</b> 09 nights / 10 Days</p>
+                            <p><b>Season:</b> May-October</p>
+                            <p><b>Destinations:</b> Leh(4 nights),Pangong Tso(1 night), Nubra(2 nights), Hanle(1 night), Tso Moriri(1 night)</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!--Team -->
+    <section id="team" class="services">
+        <h2>Meet Our Team</h2>
+        <div class="services-grid">
+            <div class="team-card">
+                <div class="team-info">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80" alt="Deleks Namgyal" class="team-image">
+                    <h3>Deleks Namgyal</h3>
+                    <p>Founder & CEO</p>
+                </div>
+                <div class="expanded-content">
+                    <p>Over 8 years of experience and learning in a wide array of organisations ranging from online travel, advertising and corporate communications.</p>
+                    <p>A Post Graduate in Mass Communications with specialisation in Advertising and Corporate Communications, he is also a keen photographer and loves to shoot whenever he gets to travel.</p>
+                    <p>He is the General Secretary of ALTOA (All Ladakh Tour Operators Association) – the apex body of tour operators in Ladakh with a membership base of over 300 travel agents. ALTOA is an important stakeholder in decisions related to Tourism in Ladakh.</p>
+
+                    <h4>Key Responsibilities:</h4>
+                    <ul>
+                        <li>Brand development, design</li>
+                        <li>Developing brand strategy and communication systems</li>
+                        <li>Strategic marketing and advertising, including business plan & sales strategy development</li>
+                        <li>Creating new potential areas of growth and marketing services through online and offline channels</li>
+                        <li>Managing relations with B2B channels Pan india and hospitality partners all over the mountains</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-info">
+                    <img src="images/pankaj.jpg" alt="Pankaj Gupta" class="team-image">
+                    <h3>Pankaj Gupta</h3>
+                    <p>CEO</p>
+                </div>
+                <div class="expanded-content">
+                    <p>Over 19 years of Cross Functional & Senior Managerial experience in Travel, Tourism & Aviation industries with organizations of high repute with professional objective to run high profitability business, create exceptional value for clients and implement best in class solutions and delivery model to secure value-based relationships.</p>
+
+                    <h4>Key Responsibilities:</h4>
+                    <ul>
+                        <li>Business development</li>
+                        <li>Client servicing</li>
+                        <li>Relationship management</li>
+                        <li>Operations and vendor management</li>
+                        <li>Strategy development, planning, research, analysis</li>
+                        <li>Quality control & issue resolution</li>
+                        <li>Team management and profit-centre responsibilities</li>
+                    </ul>
+
+                    <h4>Education:</h4>
+                    <p>Bachelor of Commerce Degree from Delhi University</p>
+                    <p>IATA qualified</p>
+
+                    <h4>Key Companies:</h4>
+                    <ul>
+                        <li>Le Travel World</li>
+                        <li>United Airlines</li>
+                        <li>Malaysian Airlines</li>
+                        <li>E-bookers</li>
+                        <li>Times Internet Limited</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-info">
+                    <img src="images/nitin.jpg" alt="Nitin Khare" class="team-image">
+                    <h3>Nitin Khare</h3>
+                    <p>CFO</p>
+                </div>
+                <div class="expanded-content">
+                    <p>A result-oriented professional with experience of over 10 years in Banking Operations, Client servicing and Marketing.</p>
+                    <p>Adroit in performing all banking operations effectively & efficiently, coordinating with various branches & managing a variety of branch banking operations.</p>
+                    <p>An executor with exposure in managing back-end operations with an aim to accomplish corporate plans & goals successfully.</p>
+                    <p>Understanding of retention & marketing operations inclusive of planning & developing and managing a portfolio of client relationships</p>
+                    <p>Skills in managing entire banking back-office operations entailing as well as implementing strategies towards enhanced customer satisfaction and business growth.</p>
+                    <p>Possess interpersonal, communication and analytical skills with demonstrated abilities in customer relationship management.</p>
+
+                    <h4>Areas of Exposure</h4>
+                    <div class="exposure-grid">
+                        <div class="exposure-item">
+                            <strong>Operations Management</strong>
+                            <p>Royal Bank of Scotland (RBS)</p>
+                        </div>
+                        <div class="exposure-item">
+                            <strong>Marketing Management</strong>
+                            <p>ABN AMRO Bank</p>
+                        </div>
+                        <div class="exposure-item">
+                            <strong>Client Relationship Management</strong>
+                            <p>Development Credit Bank</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms and Conditions -->
+    <section id="terms" class="contact">
+        <div class="terms-container">
+            <h2 class="section-title" align="center">Terms and Conditions</h2>
+            
+            <div class="terms-grid">
+                <!-- Includes -->
+                <div class="activity-card">
+                    <div class="activity-content">
+                        <h3>Includes</h3>
+                        <div class="card-content">
+                            <p>Assistance upon arrival at Leh airport</p>
+                            <p>Tea / coffee on arrival at the hotel</p>
+                            <p>Accommodation on a twin-sharing basis</p>
+                            <p>Meal plan: MAP (breakfast and dinner only)</p>
+                            <p>Return airport transfers and sightseeing tours by non-AC vehicle</p>
+                            <p>Inner line permit to restricted / protected areas / Green Fee</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Excludes -->
+                <div class="activity-card">
+                    <div class="activity-content">
+                        <h3>Excludes</h3>
+                        <div class="card-content">
+                            <p>Airfare to and from Leh</p>
+                            <p>Monastery entrance fees</p>
+                            <p>Any kind of personal expenses or optional tours / extra meals ordered</p>
+                            <p>Sightseeing as per the itinerary. Vehicle not on disposal basis.</p>
+                            <p>Services of vehicle on leisure days</p>
+                            <p>Oxygen cylinder is available on a hire basis @ Rs. 500/- per day</p>
+                            <p>Tips, insurance, laundry, phone calls</p>
+                            <p>Any kind of drinks (alcoholic, mineral, aerated)</p>
+                            <p>Guide fee, camera fee</p>
+                            <p>Anything not specifically mentioned under the head "Package Includes"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package Terms & Conditions -->
+                <div class="activity-card">
+                    <div class="activity-content">
+                        <h3>Package Terms & Conditions</h3>
+                        <div class="card-content">
+                            <p>Prices valid from 01st April 2025 to 31st March 2026</p>
+                            <p>Prices valid for a minimum of 02, 04 & 06 pax traveling together in one Innova / Xylo; and above 06 pax based on Tempo Traveller (10-seater)</p>
+                            <p>50% advance to be deposited at the time of booking</p>
+                            <p>Check-in / check-out time at all the properties would be at 12:00 hrs (noon)</p>
+                            <p>All the above-mentioned rates are per person rates on twin-sharing basis</p>
+                            <p>Child cost is on MAP basis, sharing room with parents without extra bed</p>
+                            <p>Any payment in the Leh office should be in cash only</p>
+                            <p>During off-season, Pangong Lake journey will be done as a one-day excursion</p>
+                            <p>The above rates are applicable strictly for resident Indian citizens only</p>
+                            <p>In case of foreign nationals, add Rs. 700/- per person extra for permits and Green Fee</p>
+                            <p>No refund on any unused services</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cancellation Policy -->
+                <div class="activity-card">
+                    <div class="activity-content">
+                        <h3>Cancellation Policy</h3>
+                        <div class="card-content">
+                            <p>10% cancellation charge if cancelled before 30 days from the date of departure</p>
+                            <p>25% cancellation charge if cancelled before 20 days from the date of departure</p>
+                            <p>50% cancellation charge if cancelled before 15 days from the date of departure</p>
+                            <p>100% cancellation charge if cancelled within 15 days from the date of departure</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="activity-card">
+                    <div class="activity-content">
+                        <h3>Additional Information</h3>
+                        <div class="card-content">
+                            <p>GST @ 5% is applicable on all packages</p>
+                            <p>Any future tax levies will be charged extra</p>
+                            <p>In case of foreign nationals, add Rs. 700/- per person</p>
+                            <p>Vehicle provided will be as per the itinerary and not at disposal</p>
+                            <p>If a vehicle is used for shopping, visiting markets, and restaurants, then there will be extra charges</p>
+                            <p>Buffet meals will be provided at the hotels</p>
+                            <p>Hotels / Camps provide hot water from 6–8 AM and 6–8 PM only</p>
+                            <p>Leh and remote areas have regular power outages. Don't expect 24 hrs electricity</p>
+                            <p>Hotels normally shut the main gates at 11 PM</p>
+                            <p>No refund on any unused services</p>
+                            <p>Any modifications and extras will be charged in cash at our Leh office</p>
+                            <p>Cost incidental to any change in the itinerary/stay on account of flight cancellation due to bad weather, ill health, roadblocks, and/or any factors beyond our control.</p>
+                            <p>The itinerary can be altered at any point of time due to bad weather, ill health, roadblocks, and/or any factors beyond our control.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#destinations">Destinations</a></li>
+                    <li><a href="#journeys">Journeys</a></li>
+                    <li><a href="#activities">Activities</a></li>
+                    <li><a href="#terms">Terms</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><a href="#">+91 9810564360</a></li>
+                    <li><a href="#">+91 9622235488</a></li>
+                    <li><a href="#">pankaj.ladakhsafari@gmail.com</a></li>
+                    <li><a href="#">deleks.ladakhsafari@gmail.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Address</h4>
+                <p>Leh Office: </p>
+                <p>Branch Office: Shop No. 31, Sab Mall, Sector-27 NOIDA</p>
+                
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 EXPLORERS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const carousel = document.getElementById('destinationCarousel');
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
+        const cardLinks = document.querySelectorAll('.destination-card-link');
+        let currentIndex = 0;
+        function getCardsPerView() {
+            if(window.innerWidth <= 600) return 1;
+            if(window.innerWidth <= 900) return 2;
+            return 3;
+        }
+        function updateCarousel() {
+            const cardsPerView = getCardsPerView();
+            const cardWidth = cardLinks[0].offsetWidth;
+            const maxIndex = cardLinks.length - cardsPerView;
+            if(currentIndex < 0) currentIndex = 0;
+            if(currentIndex > maxIndex) currentIndex = maxIndex;
+            carousel.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === maxIndex;
+        }
+        prevBtn.addEventListener('click', () => {
+            currentIndex--;
+            updateCarousel();
+        });
+        nextBtn.addEventListener('click', () => {
+            currentIndex++;
+            updateCarousel();
+        });
+        window.addEventListener('resize', updateCarousel);
+        window.addEventListener('DOMContentLoaded', updateCarousel);
+    </script>
+</body>
+</html>

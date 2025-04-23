@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanji to Pishu Trek Roadmap</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        /* Hero Section with Slideshow */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .hero-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Roadmap Styles */
+        .roadmap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .roadmap:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: linear-gradient(to bottom, #ff9a9e, #fad0c4, #fad0c4, #a1c4fd);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+        
+        .roadmap-item {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            padding: 0;
+            width: 80%;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .roadmap-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .roadmap-item:nth-child(odd) {
+            background: linear-gradient(to right, #ffffff, #f8f9fa);
+            border-left: 5px solid #ff9a9e;
+        }
+        
+        .roadmap-item:nth-child(even) {
+            background: linear-gradient(to left, #ffffff, #f8f9fa);
+            border-right: 5px solid #a1c4fd;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .roadmap-item h3 {
+            margin-top: 10px;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        
+        .roadmap-item p {
+            color: #666;
+        }
+        
+        .details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .detail-item {
+            text-align: center;
+        }
+        
+        .detail-item span {
+            display: block;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .detail-item strong {
+            font-size: 1.1rem;
+            color: #444;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        /* Trek Info Styles */
+        .trek-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .trek-info-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            padding: 20px;
+            width: 80%;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .trek-info-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .trek-info-nav.scrolled {
+            justify-content: flex-start;
+            padding-left: 60px;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #555;
+            position: relative;
+        }
+        
+        .tab-btn:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .tab-btn.active {
+            color: #2575fc;
+        }
+        
+        .tab-btn.active:after {
+            width: 80%;
+        }
+        
+        .tab-btn:hover:after {
+            width: 60%;
+        }
+        
+        .hamburger-menu {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 101;
+        }
+        
+        .hamburger-menu span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px 0;
+            background: #555;
+            transition: all 0.3s ease;
+        }
+        
+        .trek-info-nav.scrolled .hamburger-menu {
+            display: block;
+        }
+        
+        .trek-info-nav.scrolled .tab-btn {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .trek-info-nav.menu-open .hamburger-menu span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .trek-info-nav.menu-open .hamburger-menu span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .trek-info-nav.menu-open .hamburger-menu span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+        
+        .tab-content {
+            padding: 20px;
+        }
+        
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .inclusion-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .inclusion-column {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .inclusion-column h3 {
+            color: #2575fc;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .inclusion-column ul {
+            padding-left: 20px;
+        }
+        
+        .inclusion-column li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .inclusion-column li:before {
+            content: '✓';
+            color: #2575fc;
+            position: absolute;
+            left: -20px;
+        }
+        
+        .gear-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .gear-column {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .gear-column ul {
+            padding-left: 20px;
+        }
+        
+        .gear-column li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .gear-column li:before {
+            content: '•';
+            color: #2575fc;
+            position: absolute;
+            left: -20px;
+            font-size: 1.2em;
+        }
+        
+        .tips-section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .tips-section h3 {
+            color: #2575fc;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .intro-text {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .inclusion-grid, .gear-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trek-info-nav.scrolled .tab-btn {
+                display: none;
+            }
+            
+            .trek-info-nav.menu-open .tab-btn {
+                display: block;
+            }
+            
+            .trek-info-nav.scrolled {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-top: 50px;
+            }
+        }
+        
+        /* Main Menu Button */
+        .main-menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .main-menu-btn span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .main-menu-btn.open span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+        
+        .main-menu-btn.open span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .main-menu-btn.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+        
+        .main-nav {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+        
+        .main-nav.open {
+            right: 0;
+        }
+        
+        .main-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .main-nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #2575fc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section with Slideshow -->
+    <section class="hero">
+        <div class="hero-slideshow">
+            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1593939535589-8356e421b3cc?auto=format&fit=crop&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1515876305430-f06edab8282a?auto=format&fit=crop&q=80');"></div>
+            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1626017334524-bb0ac350d868?auto=format&fit=crop&q=80');"></div>
+        </div>
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Kanji to Pishu Trek Roadmap</h1>
+                <p>A 10-day adventure through the Zanskar region in Ladakh, India</p>
+            </div>
+        </div>
+        <div class="scroll-down">
+            Scroll Down ↓
+        </div>
+    </section>
+    
+    <section class="roadmap">
+        <!-- Day 1 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1593939535589-8356e421b3cc?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1626016752441-a1955cffc280?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1626017334524-bb0ac350d868?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 1: Leh to Kanji</h3>
+                <p>Morning drive to Kanji and stay overnight in Kanji village.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>3800m</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>Drive</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>1 day</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 2 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1515876305430-f06edab8282a?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 2: Kanji to Kanji la BC</h3>
+                <p>After breakfast start your trek. Easy day. Camp at this side of the base of Kanji pass.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>4300m</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>12 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>5 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 3 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1494137269338-d36b0f687715?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 3: Kanji la BC to Kanji la Pass</h3>
+                <p>Hard day crossing Kanjila pass. It will take around 3 hours to reach at the top. Overnight camp at the bank of Rangdum River.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>5150m (pass)</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>14 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>6 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 4 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1540390769625-2fc3f8b1d50c?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 4: Kanji la BC to Dipling</h3>
+                <p>Today climb Pidzongla pass. From the pass it is a long walk down till Dipling village.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>5020m (pass)</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>14 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>6 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 5 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1580181474065-9a7b2e0ed910?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1595815771614-ade501d22bf4?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 5: Dipling to Lingshed Sumdo</h3>
+                <p>Today hike to the pretty village of Dibling where there are some 14 houses and a gompa. Visit the monastery.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>3800m</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>12 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>5 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Days 6-10 follow the same pattern -->
+        <!-- Day 6 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1515876305430-f06edab8282a?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 6: Lingshed Sumdo to Lingshed</h3>
+                <p>It is a long hike to Lingshed village and its wonderful monastery.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>4660m (pass)</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>14 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>6 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 7 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1540390769625-2fc3f8b1d50c?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 7: Lingshed to Snetse</h3>
+                <p>Climb the steep Hanamu-la pass.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>4716m (pass)</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>14 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>6 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 8 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1494137269338-d36b0f687715?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 8: Snetse to Hanumal</h3>
+                <p>Start the trek to climb to the Parfila pass. Cross the pass, here on top of the pass, you have a amazing and lovely view of Landscape.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>3911m (pass)</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>14 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>6 hours</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 9 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1580181474065-9a7b2e0ed910?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1595815771614-ade501d22bf4?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 9: Hanumal to Pishu</h3>
+                <p>The route goes across the Right Bank of the Zanskar River and on the way you pass through the village Pidmo and Pastureland.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Altitude</span>
+                        <strong>3400m</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Distance</span>
+                        <strong>-</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Duration</span>
+                        <strong>-</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 10 -->
+        <div class="roadmap-item">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1593939535589-8356e421b3cc?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1626016752441-a1955cffc280?auto=format&fit=crop&q=80');"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1626017334524-bb0ac350d868?auto=format&fit=crop&q=80');"></div>
+            </div>
+            <div class="content">
+                <h3>Day 10: Pishu to Leh</h3>
+                <p>Early morning drive to Leh.</p>
+                <div class="details">
+                    <div class="detail-item">
+                        <span>Total Trek</span>
+                        <strong>94 km</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Total Hours</span>
+                        <strong>40 hours</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Max Altitude</span>
+                        <strong>5150m</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="trek-info">
+        <div class="trek-info-container">
+            <div class="trek-info-nav" id="trekInfoNav">
+                <button class="tab-btn active" onclick="openTab('inclusions')">Inclusions & Exclusions</button>
+                <button class="tab-btn" onclick="openTab('gear')">Trekking Gear</button>
+                <button class="tab-btn" onclick="openTab('tips')">Travel Tips</button>
+                <button class="hamburger-menu" id="hamburgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            
+            <div class="tab-content">
+                <!-- Inclusions Tab -->
+                <div id="inclusions" class="tab-pane active">
+                    <h2 align="center">TREKKING INCLUSIONS</h2>
+                    <p class="intro-text">Our camping trips are full-service, with tents, sleeping pads, our dining tent, kitchen tent, all supplies and food, ponies and fantastic staff and guides. Enjoy the adventure.</p>
+                    
+                    <div class="inclusion-grid">
+                        <div class="inclusion-column">
+                            <h3>INCLUDES</h3>
+                            <ul>
+                                <li>2 Men Tents with camping mattresses on Twin share basis</li>
+                                <li>Sleeping bag</li>
+                                <li>Kitchen tent cum dining tent with all meals</li>
+                                <li>Indian, Chinese & Continental Meals will be freshly prepared</li>
+                                <li>Transfers for drop and pickup for the trek</li>
+                                <li>Day 1: Pack Lunch will be provided for the trek</li>
+                                <li>High Altitude meal: We will use tin packed food in high altitude</li>
+                                <li>Professional expedition guide, kitchen, and other support staff</li>
+                                <li>Trekking and Camping Fees</li>
+                                <li>Ponies for the entire trek</li>
+                                <li>Medical kit and Oxygen cylinder support for the entire trek</li>
+                            </ul>
+                        </div>
+                        <div class="inclusion-column">
+                            <h3>EXCLUDES</h3>
+                            <ul>
+                                <li>Adventure insurance</li>
+                                <li>Individual Trekking Gears and clothing</li>
+                                <li>Special individual mountain diet if any</li>
+                                <li>Anything not specifically mentioned in inclusions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gear Tab -->
+                <div id="gear" class="tab-pane">
+                    <h2 align="center">TREKKING GEAR</h2>
+                    <p class="intro-text">The following list only mentions the essentials. You must prepare a list of clothes and small personal articles you will need during the trek:</p>
+                    
+                    <div class="gear-grid">
+                        <div class="gear-column">
+                            <ul>
+                                <li>Sleeping bag</li>
+                                <li>Hiking shoes</li>
+                                <li>Camp shoes/sneakers / sandals / Socks</li>
+                                <li>Light wind jacket</li>
+                                <li>Down jacket/vest</li>
+                                <li>Fleece jacket/vest</li>
+                                <li>T-shirts</li>
+                                <li>Trekking pants</li>
+                                <li>Thermal tops</li>
+                                <li>Thermal bottom</li>
+                                <li>Warm hat</li>
+                                <li>Sun hat/baseball cap</li>
+                            </ul>
+                        </div>
+                        <div class="gear-column">
+                            <ul>
+                                <li>Light gloves</li>
+                                <li>Duffel bag</li>
+                                <li>Sunglasses</li>
+                                <li>Torch/Headlamp</li>
+                                <li>Camera and Film</li>
+                                <li>Lip balm / Sunscreen</li>
+                                <li>Camp towel/towel / Toiletries</li>
+                                <li>Personal medicines</li>
+                                <li>Money pouch/belt</li>
+                                <li>Bandana/scarf</li>
+                                <li>Camera - bring spare batteries or solar charger</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tips Tab -->
+                <div id="tips" class="tab-pane">
+                    <h2 align="center">TRAVEL TIPS</h2>
+                    
+                    <div class="tips-section">
+                        <h3 align="center">Acclimatization</h3>
+                        <p>Most of Ladakh and areas beyond Sarchu is at an altitude of more than 3000m so you need to get acclimatized before you can set out to travel. Your body needs to adapt to high altitude, as the higher you go, the air becomes rarified and the oxygen available for you to breathe becomes lesser. Even though your body can adapt to 'thin air', you need to give it time to do so. This is what is called acclimatization.</p>
+                        <p>Acclimatization is essential to avoid acute mountain sickness (AMS). The symptoms include headache, lethargy, dizziness, and loss of appetite. You must allow a full day of complete bed rest for acclimatizing to the high altitude and low level of oxygen. High altitude sickness or Acute Mountain Sickness (AMS) is a serious condition that can happen to anyone at altitudes above 3000 meters or 10000 feet.</p>
+                        <p>Keep yourself hydrated all the time, drink water and don't experiment with Alcohol on first two days.</p>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 align="center">HEALTH</h3>
+                        <p>Travel to any part of the Himalayas deserves a little more respect than many other destinations because the whole region lies over 3000 meters. People in good health should not get alarmed by this but if you have a medical condition such as high blood pressure, heart, or lung disease, you must take the advice of a doctor who has experience with the effects of altitude. We do not take heart or lung patients or pregnant mothers on this expedition. Any kind of exercise which gets you fitter before this trip is advisable, as it will enable you to enjoy more.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <button class="main-menu-btn" id="mainMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    
+    <nav class="main-nav" id="mainNav">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    
+    <footer>
+        <p>&copy; 2025 EXPLORERS. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Slideshow functionality for hero section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero slideshow
+            const heroSlides = document.querySelectorAll('.hero-slide');
+            let heroCurrentSlide = 0;
+            
+            function showNextHeroSlide() {
+                heroSlides[heroCurrentSlide].classList.remove('active');
+                heroCurrentSlide = (heroCurrentSlide + 1) % heroSlides.length;
+                heroSlides[heroCurrentSlide].classList.add('active');
+            }
+            
+            setInterval(showNextHeroSlide, 4000); // Change hero slide every 4 seconds
+            
+            // Roadmap slideshows
+            const slideshowContainers = document.querySelectorAll('.slideshow-container');
+            
+            slideshowContainers.forEach(container => {
+                const slides = container.querySelectorAll('.slide');
+                let currentSlide = 0;
+                
+                function showNextSlide() {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }
+                
+                setInterval(showNextSlide, 3000); // Change slide every 3 seconds
+            });
+            
+            // Scroll down functionality
+            document.querySelector('.scroll-down').addEventListener('click', function() {
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Trek info tab functionality
+            function openTab(tabName) {
+                const tabContent = document.querySelectorAll('.tab-pane');
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                
+                tabContent.forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+                
+                document.getElementById(tabName).classList.add('active');
+                document.querySelector(`[onclick="openTab('${tabName}')"]`).classList.add('active');
+            }
+            
+            // Sticky navigation for trek info
+            const trekInfoNav = document.getElementById('trekInfoNav');
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 200) {
+                    trekInfoNav.classList.add('scrolled');
+                } else {
+                    trekInfoNav.classList.remove('scrolled');
+                }
+            });
+            
+            hamburgerMenu.addEventListener('click', function() {
+                trekInfoNav.classList.toggle('menu-open');
+            });
+            
+            // Main menu button functionality
+            const mainMenuBtn = document.getElementById('mainMenuBtn');
+            const mainNav = document.getElementById('mainNav');
+            
+            mainMenuBtn.addEventListener('click', function() {
+                mainNav.classList.toggle('open');
+                mainMenuBtn.classList.toggle('open');
+            });
+            
+            // Make openTab function globally available
+            window.openTab = openTab;
+        });
+    </script>
+</body>
+</html>
